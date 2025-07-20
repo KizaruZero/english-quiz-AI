@@ -25,7 +25,7 @@ interface ScoreData {
 
 export default function Home() {
   const [currentPage, setCurrentPage] = useState<
-    "home" | "image-description" | "speaking"
+    "home" | "image-description" | "speaking" | "writing"
   >("home");
 
   // Image Description states
@@ -113,7 +113,7 @@ export default function Home() {
   };
 
   const handlePageChange = (
-    page: "home" | "image-description" | "speaking"
+    page: "home" | "image-description" | "speaking" | "writing"
   ) => {
     setCurrentPage(page);
     if (page === "image-description") {
