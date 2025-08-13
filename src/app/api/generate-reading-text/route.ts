@@ -10,12 +10,12 @@ export async function POST(request: NextRequest) {
     const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-exp" });
 
     const prompt = `
-    Generate a reading passage for English comprehension test.
+    Generate a reading passage for English comprehension test (PTE Like Tests).
     
     Requirements:
     - Topic: ${topic}
     - Difficulty: ${difficulty}
-    - Word count: 250-300 words
+    - Word count: 100-150 words
     - Should contain clear main ideas and supporting details
     - Use academic but accessible language
     - Include specific examples or explanations

@@ -229,7 +229,7 @@ export default function ReadingWritingTest({
             </h3>
             <div className="text-blue-700 space-y-2 text-left max-w-2xl mx-auto">
               <p>
-                📖 <strong>Step 1:</strong> Read a passage carefully (250-300
+                📖 <strong>Step 1:</strong> Read a passage carefully (100-150
                 words)
               </p>
               <p>
@@ -351,7 +351,7 @@ export default function ReadingWritingTest({
                 value={userSummary}
                 onChange={(e) => setUserSummary(e.target.value)}
                 placeholder="Write a one-sentence summary that captures the main idea of the passage... (5-75 words)"
-                className="w-full h-32 p-4 border border-green-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent resize-none text-sm"
+                className="w-full text-black h-32 p-4 border border-green-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent resize-none text-sm"
                 disabled={!isActive}
               />
 

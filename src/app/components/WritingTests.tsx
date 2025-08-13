@@ -59,7 +59,7 @@ export default function WritingTests() {
           <div className="space-y-3 mb-6">
             <div className="flex items-center text-sm text-blue-700">
               <span className="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
-              Read a 250-300 word passage
+              Read a 100-150 word passage
             </div>
             <div className="flex items-center text-sm text-blue-700">
               <span className="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
