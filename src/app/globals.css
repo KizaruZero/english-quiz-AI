@@ -1,6 +1,109 @@
 @import "tailwindcss";
 
+/* Design Token CSS Variables */
 :root {
+  /* Light theme variables (default) */
+  --bg-default: #ffffff;
+  --bg-subtle: #f8fafc;
+  --bg-surface: #f1f5f9;
+  --bg-overlay: #e2e8f0;
+  --bg-elevated: #cbd5e1;
+  
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-muted: #64748b;
+  --text-inverse: #f8fafc;
+  
+  --border-default: #e2e8f0;
+  --border-strong: #cbd5e1;
+  --border-subtle: #f1f5f9;
+  
+  --accent-primary: #0891b2;
+  --accent-secondary: #7c3aed;
+  --accent-tertiary: #65a30d;
+  
+  --state-hover: rgba(8, 145, 178, 0.1);
+  --state-active: rgba(8, 145, 178, 0.2);
+  --state-selected: rgba(8, 145, 178, 0.15);
+  --state-focus: #0891b2;
+  --state-disabled: #cbd5e1;
+  
+  --shadow-color: rgba(15, 23, 42, 0.1);
+  --shadow-glow: rgba(8, 145, 178, 0.2);
+  
+  /* Legacy variables for backward compatibility */
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+/* Dark theme variables */
+:root.dark,
+[data-theme="dark"] {
+  --bg-default: #0b0f17;
+  --bg-subtle: #0e121b;
+  --bg-surface: #121823;
+  --bg-overlay: #1a1f2e;
+  --bg-elevated: #242938;
+  
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #64748b;
+  --text-inverse: #0f172a;
+  
+  --border-default: #334155;
+  --border-strong: #475569;
+  --border-subtle: #1e293b;
+  
+  --accent-primary: #22d3ee;
+  --accent-secondary: #a855f7;
+  --accent-tertiary: #84cc16;
+  
+  --state-hover: rgba(34, 211, 238, 0.1);
+  --state-active: rgba(34, 211, 238, 0.2);
+  --state-selected: rgba(34, 211, 238, 0.15);
+  --state-focus: #22d3ee;
+  --state-disabled: #334155;
+  
+  --shadow-color: rgba(0, 0, 0, 0.5);
+  --shadow-glow: rgba(34, 211, 238, 0.3);
+  
+  /* Legacy variables for backward compatibility */
+  --background: #0a0a0a;
+  --foreground: #ededed;
+}
+
+/* Light theme explicit class */
+:root.light,
+[data-theme="light"] {
+  --bg-default: #ffffff;
+  --bg-subtle: #f8fafc;
+  --bg-surface: #f1f5f9;
+  --bg-overlay: #e2e8f0;
+  --bg-elevated: #cbd5e1;
+  
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-muted: #64748b;
+  --text-inverse: #f8fafc;
+  
+  --border-default: #e2e8f0;
+  --border-strong: #cbd5e1;
+  --border-subtle: #f1f5f9;
+  
+  --accent-primary: #0891b2;
+  --accent-secondary: #7c3aed;
+  --accent-tertiary: #65a30d;
+  
+  --state-hover: rgba(8, 145, 178, 0.1);
+  --state-active: rgba(8, 145, 178, 0.2);
+  --state-selected: rgba(8, 145, 178, 0.15);
+  --state-focus: #0891b2;
+  --state-disabled: #cbd5e1;
+  
+  --shadow-color: rgba(15, 23, 42, 0.1);
+  --shadow-glow: rgba(8, 145, 178, 0.2);
+  
+  /* Legacy variables for backward compatibility */
   --background: #ffffff;
   --foreground: #171717;
 }
@@ -12,46 +115,167 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Base body styling */
+body {
+  background: var(--bg-default);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Smooth theme transitions */
+.theme-transitioning,
+.theme-transitioning *,
+.theme-transitioning *:before,
+.theme-transitioning *:after {
+  transition: all 0.3s ease !important;
+  transition-delay: 0 !important;
 }
-\\/* Custom scrollbar */
+
+/* Enhanced scrollbar with theme support */
 .overflow-y-auto::-webkit-scrollbar {
   width: 6px;
 }
 
 .overflow-y-auto::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: var(--bg-surface);
   border-radius: 3px;
 }
 
 .overflow-y-auto::-webkit-scrollbar-thumb {
-  background: #c1c1c1;
+  background: var(--border-default);
   border-radius: 3px;
+  transition: background-color 0.2s ease;
 }
 
 .overflow-y-auto::-webkit-scrollbar-thumb:hover {
-  background: #a8a8a8;
+  background: var(--border-strong);
 }
 
-/* Smooth transitions */
+/* Global smooth transitions for interactive elements */
 * {
-  transition-property: color, background-color, border-color,
-    text-decoration-color, fill, stroke;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
+  transition-duration: 180ms;
 }
 
-/* Responsive text sizes */
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .theme-transitioning,
+  .theme-transitioning *,
+  .theme-transitioning *:before,
+  .theme-transitioning *:after {
+    transition: none !important;
+  }
+}
+
+/* Enhanced focus styles for accessibility */
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+[role="button"]:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--state-focus);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px var(--state-hover);
+  transition: outline-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+/* Custom focus ring for dark theme */
+.dark button:focus-visible,
+.dark input:focus-visible,
+.dark textarea:focus-visible,
+.dark select:focus-visible,
+.dark [role="button"]:focus-visible,
+.dark [tabindex]:focus-visible {
+  box-shadow: 0 0 0 4px var(--state-hover), 0 0 20px var(--shadow-glow);
+}
+
+/* Loading spinner animation */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+/* Web3 gradient backgrounds */
+.gradient-web3-primary {
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+}
+
+.gradient-web3-secondary {
+  background: linear-gradient(135deg, var(--accent-secondary), var(--accent-tertiary));
+}
+
+.gradient-web3-tertiary {
+  background: linear-gradient(135deg, var(--accent-tertiary), var(--accent-primary));
+}
+
+/* Glassmorphism effect */
+.glass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.dark .glass {
+  background: rgba(18, 24, 35, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(51, 65, 85, 0.3);
+}
+
+/* Enhanced prose styling */
+.prose {
+  color: var(--text-primary);
+  max-width: none;
+}
+
+.prose p {
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.prose p:first-child {
+  margin-top: 0;
+}
+
+.prose p:last-child {
+  margin-bottom: 0;
+}
+
+.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
+  color: var(--text-primary);
+}
+
+.prose strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.prose code {
+  background: var(--bg-surface);
+  color: var(--accent-primary);
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+  font-size: 0.875em;
+}
+
+/* Responsive optimizations */
 @media (max-width: 640px) {
   .text-6xl {
     font-size: 3rem;
@@ -64,45 +288,6 @@ body {
   }
 }
 
-/* Focus styles for accessibility */
-button:focus-visible,
-input:focus-visible,
-textarea:focus-visible {
-  outline: 2px solid #4f46e5;
-  outline-offset: 2px;
-}
-
-/* Animation for loading spinner */
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.animate-spin {
-  animation: spin 1s linear infinite;
-}
-
-/* Prose styling for better text readability */
-.prose {
-  color: #374151;
-  max-width: none;
-}
-
-.prose p {
-  margin-top: 0.75rem;
-  margin-bottom: 0.75rem;
-}
-
-.prose p:first-child {
-  margin-top: 0;
-}
-
-.prose p:last-child {
-  margin-bottom: 0;
-}
-
-/* Mobile optimizations */
 @media (max-width: 768px) {
   .container {
     padding-left: 1rem;
@@ -127,4 +312,29 @@ textarea:focus-visible {
   .no-print {
     display: none;
   }
+  
+  body {
+    background: white !important;
+    color: black !important;
+  }
+}
+
+/* Selection styling */
+::selection {
+  background: var(--state-selected);
+  color: var(--text-primary);
+}
+
+/* Custom utility classes */
+.border-gradient {
+  border: 1px solid transparent;
+  background: linear-gradient(var(--bg-surface), var(--bg-surface)) padding-box,
+              linear-gradient(135deg, var(--accent-primary), var(--accent-secondary)) border-box;
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
