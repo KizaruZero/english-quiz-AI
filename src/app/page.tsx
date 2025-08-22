@@ -11,6 +11,7 @@ import DescriptionInput from "./components/DescriptionInput";
 import Results from "./components/Results";
 import SpeakingTest from "./components/SpeakingTest";
 import WritingTests from "./components/WritingTests";
+import Surface from "@/components/ui/Surface";
 
 interface ScoreData {
   score: number;
@@ -122,7 +123,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50">
+    <div className="min-h-screen bg-bg-default">
       <Header currentPage={currentPage} onPageChange={handlePageChange} />
 
       {currentPage === "home" && (
@@ -138,10 +139,14 @@ export default function Home() {
         <div className="py-8">
           <div className="container mx-auto px-4 max-w-4xl">
             {loading && (
-              <div className="text-center mb-8">
-                <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
-                <p className="mt-2 text-gray-600">Processing...</p>
-              </div>
+              <Surface 
+                variant="elevated" 
+                padding="lg"
+                className="text-center mb-8 animate-fade-in"
+              >
+                <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-accent-primary"></div>
+                <p className="mt-4 text-text-secondary">Processing...</p>
+              </Surface>
             )}
 
             {currentPage === "image-description" && (

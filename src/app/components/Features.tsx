@@ -1,5 +1,8 @@
 "use client";
 
+import Button from "@/components/ui/Button";
+import Surface from "@/components/ui/Surface";
+
 interface FeaturesProps {
   onStartPractice: (page: "image-description" | "speaking") => void;
 }
@@ -14,11 +17,12 @@ export default function Features({ onStartPractice }: FeaturesProps) {
       points: [
         "Real-time speech recognition",
         "Pronunciation scoring",
-        "Fluency assessment",
+        "Fluency assessment", 
         "Content accuracy evaluation",
       ],
       action: () => onStartPractice("speaking"),
-      gradient: "from-blue-500 to-cyan-500",
+      gradient: "from-accent-primary to-cyan-500",
+      accentColor: "accent-primary",
     },
     {
       icon: "📷",
@@ -32,7 +36,8 @@ export default function Features({ onStartPractice }: FeaturesProps) {
         "Content comparison",
       ],
       action: () => onStartPractice("image-description"),
-      gradient: "from-purple-500 to-pink-500",
+      gradient: "from-accent-secondary to-purple-500",
+      accentColor: "accent-secondary",
     },
     {
       icon: "📚",
@@ -49,64 +54,136 @@ export default function Features({ onStartPractice }: FeaturesProps) {
         document
           .getElementById("pte-guide")
           ?.scrollIntoView({ behavior: "smooth" }),
-      gradient: "from-green-500 to-teal-500",
+      gradient: "from-accent-tertiary to-green-500",
+      accentColor: "accent-tertiary",
     },
   ];
 
   return (
-    <section className="py-20 px-4 bg-white">
+    <section className="py-20 px-4 bg-bg-subtle">
       <div className="container mx-auto max-w-6xl">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-6">
+        {/* Section Header */}
+        <div className="text-center mb-16 animate-fade-in">
+          <h2 className="text-4xl md:text-5xl font-bold text-text-primary mb-6">
             Practice with{" "}
-            <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+            <span className="text-gradient">
               AI Precision
             </span>
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl text-text-secondary max-w-3xl mx-auto leading-relaxed">
             Our advanced AI system provides detailed feedback on every aspect of
             your performance, helping you identify strengths and areas for
             improvement.
           </p>
         </div>
 
+        {/* Features Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {features.map((feature, index) => (
-            <div
+            <Surface
               key={index}
-              className="group bg-white rounded-2xl p-8 shadow-xl shadow-gray-100 border border-gray-100 hover:shadow-2xl hover:shadow-gray-200 transition-all duration-300 transform hover:-translate-y-2"
+              variant="elevated"
+              padding="lg"
+              radius="xl"
+              border
+              interactive
+              className={`group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 animate-slide-up`}
+              style={{ animationDelay: `${index * 100}ms` }}
             >
-              <div
-                className={`w-16 h-16 bg-gradient-to-r ${feature.gradient} rounded-2xl flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition-transform duration-300`}
+              {/* Feature Icon */}
+              <Surface
+                variant="glass"
+                padding="md"
+                radius="xl"
+                className={`w-16 h-16 flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition-transform duration-300 bg-gradient-to-r ${feature.gradient} shadow-glow`}
               >
                 {feature.icon}
-              </div>
+              </Surface>
 
-              <h3 className="text-2xl font-bold text-gray-800 mb-4">
+              {/* Feature Title */}
+              <h3 className="text-2xl font-bold text-text-primary mb-4 group-hover:text-accent-primary transition-colors duration-300">
                 {feature.title}
               </h3>
 
-              <p className="text-gray-600 mb-6 leading-relaxed">
+              {/* Feature Description */}
+              <p className="text-text-secondary mb-6 leading-relaxed">
                 {feature.description}
               </p>
 
+              {/* Feature Points */}
               <ul className="space-y-3 mb-8">
                 {feature.points.map((point, pointIndex) => (
-                  <li key={pointIndex} className="flex items-center space-x-3">
-                    <div className="w-2 h-2 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full"></div>
-                    <span className="text-gray-700">{point}</span>
+                  <li key={pointIndex} className="flex items-center space-x-3 group/item">
+                    <Surface
+                      variant="default"
+                      padding="none"
+                      radius="full"
+                      className={`w-2 h-2 bg-gradient-to-r ${feature.gradient} shadow-sm group-hover/item:scale-125 transition-transform duration-200`}
+                    />
+                    <span className="text-text-secondary group-hover/item:text-text-primary transition-colors duration-200">
+                      {point}
+                    </span>
                   </li>
                 ))}
               </ul>
 
-              <button
+              {/* CTA Button */}
+              <Button
+                variant="primary"
+                size="md"
+                fullWidth
+                glow
                 onClick={feature.action}
-                className={`w-full bg-gradient-to-r ${feature.gradient} text-white py-3 px-6 rounded-xl font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-300`}
+                className={`bg-gradient-to-r ${feature.gradient} group-hover:shadow-xl`}
               >
                 Try Now
-              </button>
-            </div>
+              </Button>
+
+              {/* Hover Glow Effect */}
+              <div 
+                className={`absolute inset-0 rounded-xl opacity-0 group-hover:opacity-30 transition-opacity duration-300 bg-gradient-to-r ${feature.gradient} blur-xl -z-10`}
+              />
+            </Surface>
           ))}
+        </div>
+
+        {/* Bottom CTA Section */}
+        <div className="text-center mt-16 animate-fade-in">
+          <Surface
+            variant="glass"
+            padding="lg"
+            radius="xl"
+            border
+            className="inline-block backdrop-blur-md"
+          >
+            <h3 className="text-2xl font-bold text-text-primary mb-4">
+              Ready to boost your PTE score?
+            </h3>
+            <p className="text-text-secondary mb-6">
+              Join thousands of successful test-takers who improved their scores with our AI-powered platform.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button
+                variant="primary"
+                size="lg"
+                glow
+                onClick={() => onStartPractice("image-description")}
+              >
+                Start Free Practice
+              </Button>
+              <Button
+                variant="outline"
+                size="lg"
+                onClick={() =>
+                  document
+                    .getElementById("pte-guide")
+                    ?.scrollIntoView({ behavior: "smooth" })
+                }
+              >
+                View Study Guide
+              </Button>
+            </div>
+          </Surface>
         </div>
       </div>
     </section>

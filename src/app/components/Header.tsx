@@ -1,5 +1,9 @@
 "use client";
 
+import Button from '@/components/ui/Button';
+import Surface from '@/components/ui/Surface';
+import ThemeToggle from '@/components/ui/ThemeToggle';
+
 interface HeaderProps {
   currentPage: "home" | "image-description" | "speaking" | "writing";
   onPageChange: (
@@ -9,78 +13,99 @@ interface HeaderProps {
 
 export default function Header({ currentPage, onPageChange }: HeaderProps) {
   return (
-    <header className="bg-white/95 backdrop-blur-sm shadow-lg border-b border-gray-200 sticky top-0 z-50">
+    <Surface 
+      as="header" 
+      variant="glass" 
+      padding="none"
+      className="sticky top-0 z-50 backdrop-blur-md border-b border-border-subtle"
+    >
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="flex items-center justify-between h-16">
           {/* Logo/Title */}
           <div
-            className="flex items-center space-x-4 cursor-pointer"
+            className="flex items-center space-x-4 cursor-pointer group"
             onClick={() => onPageChange("home")}
           >
-            <div className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+            <div className="text-2xl font-bold text-gradient">
               🎯 PTE Practice Hub
             </div>
-            <div className="hidden md:block text-sm text-gray-500">
+            <div className="hidden md:block text-sm text-text-muted group-hover:text-text-secondary transition-colors">
               AI-Powered English Test Preparation
             </div>
           </div>
 
           {/* Navigation */}
-          <nav className="flex space-x-1">
-            <button
+          <nav className="flex items-center space-x-2">
+            <Button
+              variant={currentPage === "home" ? "primary" : "ghost"}
+              size="sm"
               onClick={() => onPageChange("home")}
-              className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
-                currentPage === "home"
-                  ? "bg-indigo-600 text-white shadow-lg shadow-indigo-200"
-                  : "text-gray-600 hover:text-indigo-600 hover:bg-indigo-50"
-              }`}
+              glow={currentPage === "home"}
             >
               Home
-            </button>
-            <button
+            </Button>
+            <Button
+              variant={currentPage === "image-description" ? "primary" : "ghost"}
+              size="sm"
               onClick={() => onPageChange("image-description")}
-              className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
-                currentPage === "image-description"
-                  ? "bg-indigo-600 text-white shadow-lg shadow-indigo-200"
-                  : "text-gray-600 hover:text-indigo-600 hover:bg-indigo-50"
-              }`}
+              glow={currentPage === "image-description"}
             >
-              Image Description
-            </button>
-            <button
+              <span className="hidden sm:inline">Image Description</span>
+              <span className="sm:hidden">📷</span>
+            </Button>
+            <Button
+              variant={currentPage === "speaking" ? "primary" : "ghost"}
+              size="sm"
               onClick={() => onPageChange("speaking")}
-              className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
-                currentPage === "speaking"
-                  ? "bg-indigo-600 text-white shadow-lg shadow-indigo-200"
-                  : "text-gray-600 hover:text-indigo-600 hover:bg-indigo-50"
-              }`}
+              glow={currentPage === "speaking"}
             >
-              Speaking Test
-            </button>
-            <button
+              <span className="hidden sm:inline">Speaking Test</span>
+              <span className="sm:hidden">🎤</span>
+            </Button>
+            <Button
+              variant={currentPage === "writing" ? "primary" : "ghost"}
+              size="sm"
               onClick={() => onPageChange("writing")}
-              className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
-                currentPage === "writing"
-                  ? "bg-indigo-600 text-white shadow-lg shadow-indigo-200"
-                  : "text-gray-600 hover:text-indigo-600 hover:bg-indigo-50"
-              }`}
+              glow={currentPage === "writing"}
             >
-              Writing Test
-            </button>
+              <span className="hidden sm:inline">Writing Test</span>
+              <span className="sm:hidden">✍️</span>
+            </Button>
           </nav>
 
-          {/* User Info */}
-          <div className="flex items-center space-x-3">
-            <div className="hidden md:block text-sm text-gray-600">
-              Welcome,{" "}
-              <span className="font-medium text-indigo-600">KizaruZero</span>
+          {/* Right Section - Theme Toggle & User Info */}
+          <div className="flex items-center space-x-4">
+            {/* Theme Toggle */}
+            <ThemeToggle size="sm" />
+            
+            {/* User Info */}
+            <div className="hidden md:flex items-center space-x-3">
+              <div className="text-sm text-text-secondary">
+                Welcome,{" "}
+                <span className="font-medium text-accent-primary">KizaruZero</span>
+              </div>
+              <Surface
+                variant="elevated"
+                padding="none"
+                radius="full"
+                className="w-10 h-10 flex items-center justify-center gradient-web3-primary text-white font-medium text-sm shadow-glow"
+              >
+                KZ
+              </Surface>
             </div>
-            <div className="w-10 h-10 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full flex items-center justify-center text-white font-medium text-sm shadow-lg">
+
+            {/* Mobile User Avatar */}
+            <Surface
+              variant="elevated"
+              padding="none"
+              radius="full"
+              className="md:hidden w-10 h-10 flex items-center justify-center gradient-web3-primary text-white font-medium text-sm shadow-glow"
+            >
               KZ
-            </div>
+            </Surface>
           </div>
         </div>
       </div>
-    </header>
+    </Surface>
   );
 }
