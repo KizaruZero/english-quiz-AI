@@ -12,6 +12,8 @@ import Results from "./components/Results";
 import SpeakingTest from "./components/SpeakingTest";
 import WritingTests from "./components/WritingTests";
 import Surface from "@/components/ui/Surface";
+import Button from "@/components/ui/Button";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface ScoreData {
   score: number;
@@ -25,6 +27,7 @@ interface ScoreData {
 }
 
 export default function Home() {
+  const { isAuthenticated } = useAuth();
   const [currentPage, setCurrentPage] = useState<
     "home" | "image-description" | "speaking" | "writing"
   >("home");
@@ -122,6 +125,57 @@ export default function Home() {
     }
   };
 
+  // Check if current page requires authentication
+  const isProtectedPage = currentPage === "image-description" || 
+                          currentPage === "speaking" || 
+                          currentPage === "writing";
+
+  // Login Required Component
+  const LoginRequired = ({ feature }: { feature: string }) => (
+    <Surface variant="elevated" padding="xl" radius="xl" border className="text-center animate-fade-in">
+      <Surface
+        variant="glass"
+        padding="lg"
+        radius="full"
+        className="w-20 h-20 flex items-center justify-center mx-auto mb-6 gradient-web3-primary shadow-glow"
+      >
+        <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+        </svg>
+      </Surface>
+      
+      <h2 className="text-2xl font-bold text-text-primary mb-4">
+        Sign In Required
+      </h2>
+      <p className="text-text-secondary mb-6 max-w-md mx-auto">
+        Please sign in to access the {feature} feature. Create an account or use one of our demo accounts to get started.
+      </p>
+      
+      <div className="flex flex-col sm:flex-row gap-4 justify-center">
+        <Button
+          variant="primary"
+          size="lg"
+          glow
+          onClick={() => handlePageChange("home")}
+          icon={
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+            </svg>
+          }
+        >
+          Back to Home
+        </Button>
+        <Button
+          variant="outline"
+          size="lg"
+          onClick={() => document.getElementById("pte-guide")?.scrollIntoView({ behavior: "smooth" })}
+        >
+          View Guide
+        </Button>
+      </div>
+    </Surface>
+  );
+
   return (
     <div className="min-h-screen bg-bg-default">
       <Header currentPage={currentPage} onPageChange={handlePageChange} />
@@ -149,38 +203,54 @@ export default function Home() {
               </Surface>
             )}
 
-            {currentPage === "image-description" && (
-              <>
-                {step === "upload" && (
-                  <ImageUpload
-                    onImageUpload={handleImageUpload}
-                    disabled={loading}
-                  />
-                )}
-
-                {step === "describe" && (
-                  <DescriptionInput
-                    imagePreview={imagePreview}
-                    onSubmit={handleDescriptionSubmit}
-                    disabled={loading}
-                  />
-                )}
-
-                {step === "results" && scoreData && (
-                  <Results
-                    imagePreview={imagePreview}
-                    aiDescription={aiDescription}
-                    userDescription={userDescription}
-                    scoreData={scoreData}
-                    onReset={resetQuiz}
-                  />
-                )}
-              </>
+            {/* Protected Routes - Show login required if not authenticated */}
+            {!isAuthenticated && isProtectedPage && (
+              <LoginRequired 
+                feature={
+                  currentPage === "image-description" ? "Image Description" :
+                  currentPage === "speaking" ? "Speaking Test" :
+                  currentPage === "writing" ? "Writing Test" : ""
+                } 
+              />
             )}
 
-            {currentPage === "speaking" && <SpeakingTest />}
+            {/* Authenticated Content */}
+            {isAuthenticated && (
+              <>
+                {currentPage === "image-description" && (
+                  <>
+                    {step === "upload" && (
+                      <ImageUpload
+                        onImageUpload={handleImageUpload}
+                        disabled={loading}
+                      />
+                    )}
 
-            {currentPage === "writing" && <WritingTests />}
+                    {step === "describe" && (
+                      <DescriptionInput
+                        imagePreview={imagePreview}
+                        onSubmit={handleDescriptionSubmit}
+                        disabled={loading}
+                      />
+                    )}
+
+                    {step === "results" && scoreData && (
+                      <Results
+                        imagePreview={imagePreview}
+                        aiDescription={aiDescription}
+                        userDescription={userDescription}
+                        scoreData={scoreData}
+                        onReset={resetQuiz}
+                      />
+                    )}
+                  </>
+                )}
+
+                {currentPage === "speaking" && <SpeakingTest />}
+
+                {currentPage === "writing" && <WritingTests />}
+              </>
+            )}
           </div>
         </div>
       )}

@@ -1,6 +1,8 @@
 "use client";
 
 import { useRef, useState } from "react";
+import Surface from "@/components/ui/Surface";
+import Button from "@/components/ui/Button";
 
 interface ImageUploadProps {
   onImageUpload: (file: File, preview: string) => void;
@@ -56,9 +58,15 @@ export default function ImageUpload({
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-lg p-8">
+    <Surface variant="elevated" padding="lg" radius="xl" border className="animate-fade-in">
+      {/* Header */}
       <div className="text-center mb-8">
-        <div className="w-16 h-16 bg-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4">
+        <Surface
+          variant="glass"
+          padding="md"
+          radius="full"
+          className="w-16 h-16 flex items-center justify-center mx-auto mb-6 gradient-web3-primary shadow-glow"
+        >
           <svg
             className="w-8 h-8 text-white"
             fill="none"
@@ -72,19 +80,29 @@ export default function ImageUpload({
               d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
             />
           </svg>
-        </div>
-        <h2 className="text-3xl font-bold text-gray-800 mb-2">
+        </Surface>
+        
+        <h2 className="text-3xl font-bold text-text-primary mb-2">
           Upload Your Image
         </h2>
-        <p className="text-gray-600">Step 1: Choose or drag your file</p>
+        <p className="text-text-secondary">Step 1: Choose or drag your file</p>
       </div>
 
-      <div
-        className={`border-2 border-dashed rounded-lg p-12 text-center transition-all duration-300 ${
-          dragActive
-            ? "border-indigo-500 bg-indigo-50 scale-105"
-            : "border-gray-300 hover:border-indigo-400 hover:bg-gray-50"
-        } ${disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
+      {/* Upload Area */}
+      <Surface
+        variant="glass"
+        padding="xl"
+        radius="lg"
+        border
+        className={`
+          text-center transition-all duration-300 cursor-pointer
+          border-2 border-dashed backdrop-blur-md
+          ${dragActive
+            ? "border-accent-primary bg-state-active scale-105 shadow-glow"
+            : "border-border-default hover:border-accent-primary hover:bg-state-hover"
+          }
+          ${disabled ? "opacity-50 cursor-not-allowed" : ""}
+        `}
         onDragEnter={handleDrag}
         onDragLeave={handleDrag}
         onDragOver={handleDrag}
@@ -100,58 +118,92 @@ export default function ImageUpload({
           disabled={disabled}
         />
 
-        <div className="text-gray-500">
-          <div
-            className={`inline-flex items-center justify-center w-20 h-20 rounded-full mb-6 transition-all duration-300 ${
-              dragActive
-                ? "bg-indigo-600 scale-110"
-                : "bg-gray-100 border-2 border-gray-200"
-            }`}
+        {/* Upload Icon */}
+        <Surface
+          variant={dragActive ? "elevated" : "default"}
+          padding="lg"
+          radius="full"
+          className={`
+            inline-flex items-center justify-center w-20 h-20 mb-6 transition-all duration-300
+            ${dragActive
+              ? "gradient-web3-primary scale-110 shadow-glow text-white"
+              : "bg-bg-elevated border-2 border-border-default text-text-muted"
+            }
+          `}
+        >
+          <svg
+            className="w-10 h-10 transition-all duration-300"
+            stroke="currentColor"
+            fill="none"
+            viewBox="0 0 48 48"
           >
-            <svg
-              className={`w-10 h-10 transition-all duration-300 ${
-                dragActive ? "text-white scale-110" : "text-gray-400"
-              }`}
-              stroke="currentColor"
-              fill="none"
-              viewBox="0 0 48 48"
-            >
-              <path
-                d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                strokeWidth={2}
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </div>
+            <path
+              d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+              strokeWidth={2}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </Surface>
 
-          <div className="space-y-3">
-            <p
-              className={`text-xl font-semibold transition-colors duration-300 ${
-                dragActive ? "text-indigo-600" : "text-gray-700"
-              }`}
-            >
-              {dragActive
-                ? "Drop your image here!"
-                : "Click to upload or drag and drop"}
-            </p>
-            <p className="text-gray-500 text-sm">PNG, JPG, GIF up to 10MB</p>
+        {/* Upload Text */}
+        <div className="space-y-3">
+          <p className={`text-xl font-semibold transition-colors duration-300 ${
+            dragActive ? "text-accent-primary" : "text-text-primary"
+          }`}>
+            {dragActive
+              ? "Drop your image here!"
+              : "Click to upload or drag and drop"}
+          </p>
+          <p className="text-text-muted text-sm">PNG, JPG, GIF up to 10MB</p>
 
-            {/* Feature badges */}
-            <div className="flex flex-wrap justify-center gap-2 mt-6">
-              <span className="px-3 py-1 text-xs font-medium bg-blue-100 text-blue-700 rounded-full border border-blue-200">
-                High Quality
-              </span>
-              <span className="px-3 py-1 text-xs font-medium bg-green-100 text-green-700 rounded-full border border-green-200">
-                Fast Upload
-              </span>
-              <span className="px-3 py-1 text-xs font-medium bg-purple-100 text-purple-700 rounded-full border border-purple-200">
-                Secure
-              </span>
-            </div>
+          {/* Feature Badges */}
+          <div className="flex flex-wrap justify-center gap-3 mt-6">
+            <Surface
+              variant="glass"
+              padding="sm"
+              radius="full"
+              className="px-3 py-1 text-xs font-medium text-accent-primary border border-accent-primary/30 backdrop-blur-sm"
+            >
+              High Quality
+            </Surface>
+            <Surface
+              variant="glass"
+              padding="sm"
+              radius="full"
+              className="px-3 py-1 text-xs font-medium text-accent-tertiary border border-accent-tertiary/30 backdrop-blur-sm"
+            >
+              Fast Upload
+            </Surface>
+            <Surface
+              variant="glass"
+              padding="sm"
+              radius="full"
+              className="px-3 py-1 text-xs font-medium text-accent-secondary border border-accent-secondary/30 backdrop-blur-sm"
+            >
+              Secure
+            </Surface>
           </div>
         </div>
+      </Surface>
+
+      {/* Alternative Upload Button */}
+      <div className="mt-8 text-center">
+        <p className="text-text-muted text-sm mb-4">Or browse from your device</p>
+        <Button
+          variant="outline"
+          size="lg"
+          disabled={disabled}
+          onClick={() => fileInputRef.current?.click()}
+          icon={
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+            </svg>
+          }
+        >
+          Browse Files
+        </Button>
       </div>
-    </div>
+    </Surface>
   );
 }

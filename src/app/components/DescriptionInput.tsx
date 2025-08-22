@@ -1,6 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import Surface from "@/components/ui/Surface";
+import Button from "@/components/ui/Button";
+import Input from "@/components/ui/Input";
 
 interface DescriptionInputProps {
   imagePreview: string;
@@ -24,10 +27,39 @@ export default function DescriptionInput({
     onSubmit(description.trim());
   };
 
+  const tips = [
+    {
+      icon: "👁️",
+      title: "Observe Details",
+      text: "Look at colors, shapes, people, objects, and their relationships"
+    },
+    {
+      icon: "🎯",
+      title: "Be Specific",
+      text: "Use precise vocabulary and avoid vague descriptions"
+    },
+    {
+      icon: "📝",
+      title: "Structure Well",
+      text: "Start with general overview, then focus on specific details"
+    },
+    {
+      icon: "⏰",
+      title: "Take Your Time",
+      text: "Think before writing, quality over speed"
+    }
+  ];
+
   return (
-    <div className="bg-white rounded-lg shadow-lg p-8">
+    <Surface variant="elevated" padding="lg" radius="xl" border className="animate-fade-in">
+      {/* Header */}
       <div className="text-center mb-8">
-        <div className="w-16 h-16 bg-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4">
+        <Surface
+          variant="glass"
+          padding="md"
+          radius="full"
+          className="w-16 h-16 flex items-center justify-center mx-auto mb-6 gradient-web3-secondary shadow-glow-purple"
+        >
           <svg
             className="w-8 h-8 text-white"
             fill="none"
@@ -41,19 +73,22 @@ export default function DescriptionInput({
               d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
             />
           </svg>
-        </div>
-        <h2 className="text-3xl font-bold text-gray-800 mb-2">
+        </Surface>
+        
+        <h2 className="text-3xl font-bold text-text-primary mb-2">
           Describe the Image
         </h2>
-        <p className="text-gray-600">Step 2: Share what you see in detail</p>
+        <p className="text-text-secondary">Step 2: Share what you see in detail</p>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-8">
+      <div className="grid lg:grid-cols-2 gap-8">
+        {/* Left Column - Image and Tips */}
         <div className="space-y-6">
-          <div className="bg-gray-50 rounded-lg border border-gray-200 p-6">
-            <h3 className="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+          {/* Image Display */}
+          <Surface variant="glass" padding="md" radius="lg" border>
+            <h3 className="text-xl font-semibold text-text-primary mb-4 flex items-center">
               <svg
-                className="w-6 h-6 mr-2"
+                className="w-6 h-6 mr-3 text-accent-primary"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -67,20 +102,20 @@ export default function DescriptionInput({
               </svg>
               Your Image
             </h3>
-            <div className="overflow-hidden rounded-lg">
+            <div className="overflow-hidden rounded-lg border border-border-default">
               <img
                 src={imagePreview}
                 alt="Uploaded image"
-                className="w-full rounded-lg shadow-md object-cover max-h-80"
+                className="w-full rounded-lg object-cover max-h-80 transition-transform duration-300 hover:scale-105"
               />
             </div>
-          </div>
+          </Surface>
 
-          {/* Tips section */}
-          <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg border border-blue-200 p-6">
-            <h4 className="text-blue-800 font-semibold mb-3 flex items-center">
+          {/* Tips Section */}
+          <Surface variant="glass" padding="lg" radius="lg" border className="backdrop-blur-md">
+            <h3 className="text-xl font-semibold text-text-primary mb-4 flex items-center">
               <svg
-                className="w-5 h-5 mr-2"
+                className="w-6 h-6 mr-3 text-accent-tertiary"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -92,141 +127,139 @@ export default function DescriptionInput({
                   d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
                 />
               </svg>
-              Pro Tips
-            </h4>
-            <ul className="text-blue-700 text-sm space-y-2">
-              <li className="flex items-start">
-                <span className="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                Describe objects, colors, and actions
-              </li>
-              <li className="flex items-start">
-                <span className="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                Include spatial relationships
-              </li>
-              <li className="flex items-start">
-                <span className="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                Use descriptive adjectives
-              </li>
-            </ul>
-          </div>
+              Writing Tips
+            </h3>
+            <div className="grid gap-4">
+              {tips.map((tip, index) => (
+                <Surface
+                  key={index}
+                  variant="default"
+                  padding="sm"
+                  radius="lg"
+                  className="flex items-start space-x-3 hover:bg-state-hover transition-colors duration-200"
+                >
+                  <span className="text-2xl flex-shrink-0">{tip.icon}</span>
+                  <div>
+                    <h4 className="font-semibold text-text-primary text-sm">{tip.title}</h4>
+                    <p className="text-text-muted text-xs mt-1">{tip.text}</p>
+                  </div>
+                </Surface>
+              ))}
+            </div>
+          </Surface>
         </div>
 
+        {/* Right Column - Form */}
         <div className="space-y-6">
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="bg-gray-50 rounded-lg border border-gray-200 p-6">
-              <label
-                htmlFor="description"
-                className="block text-xl font-semibold text-gray-800 mb-4 flex items-center"
-              >
-                <svg
-                  className="w-6 h-6 mr-2"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                  />
-                </svg>
-                Your Description
-              </label>
-              <div className="relative">
+          <Surface variant="glass" padding="lg" radius="lg" border>
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div>
+                <label className="block text-lg font-semibold text-text-primary mb-4">
+                  Your Description
+                </label>
                 <textarea
-                  id="description"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  placeholder="Describe what you see in the image in detail... Include colors, objects, people, actions, and the overall scene."
-                  className="w-full h-48 p-4 bg-white text-gray-800 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none placeholder-gray-400 transition-all duration-300"
+                  placeholder="Describe what you see in the image. Include details about objects, people, colors, setting, and any actions taking place..."
                   disabled={disabled}
-                  required
+                  className="w-full h-64 px-4 py-3 rounded-lg border border-border-default bg-bg-surface text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-accent-primary focus:border-accent-primary transition-all duration-180 resize-none disabled:opacity-50 disabled:cursor-not-allowed"
                 />
-                <div className="absolute bottom-4 right-4 flex items-center space-x-2">
-                  <span
-                    className={`text-xs px-2 py-1 rounded-full ${
-                      description.length >= 50
-                        ? "bg-green-100 text-green-700 border border-green-200"
-                        : "bg-gray-100 text-gray-500 border border-gray-200"
-                    }`}
-                  >
-                    {description.length}/50+
+                <div className="mt-2 flex justify-between items-center">
+                  <span className={`text-sm ${
+                    description.length < 10 
+                      ? "text-red-500" 
+                      : description.length < 50 
+                        ? "text-yellow-500" 
+                        : "text-accent-tertiary"
+                  }`}>
+                    {description.length} characters
+                    {description.length < 10 && " (minimum 10 required)"}
+                  </span>
+                  <span className="text-xs text-text-muted">
+                    Recommended: 100-200 characters
                   </span>
                 </div>
               </div>
 
-              <div className="flex items-center justify-between mt-4">
-                <p className="text-sm text-gray-500">
-                  Characters: {description.length} (minimum 50)
-                </p>
-                <div className="flex space-x-1">
-                  {[1, 2, 3, 4, 5].map((i) => (
-                    <div
-                      key={i}
-                      className={`w-2 h-2 rounded-full transition-colors duration-300 ${
-                        description.length >= i * 10
-                          ? "bg-indigo-500"
-                          : "bg-gray-300"
-                      }`}
-                    ></div>
-                  ))}
-                </div>
+              {/* Action Buttons */}
+              <div className="flex gap-4">
+                <Button
+                  type="submit"
+                  variant="primary"
+                  size="lg"
+                  glow
+                  disabled={disabled || description.trim().length < 10}
+                  loading={disabled}
+                  className="flex-1"
+                >
+                  {disabled ? "Analyzing..." : "Submit Description"}
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="lg"
+                  onClick={() => setDescription("")}
+                  disabled={disabled || !description}
+                >
+                  Clear
+                </Button>
               </div>
-            </div>
+            </form>
+          </Surface>
 
-            <button
-              type="submit"
-              disabled={disabled || description.trim().length < 10}
-              className="w-full bg-indigo-600 text-white py-3 px-6 rounded-lg font-medium hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-            >
-              <span className="flex items-center justify-center">
-                {disabled ? (
-                  <>
-                    <svg
-                      className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <circle
-                        className="opacity-25"
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        strokeWidth="4"
-                      ></circle>
-                      <path
-                        className="opacity-75"
-                        fill="currentColor"
-                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                      ></path>
-                    </svg>
-                    Analyzing...
-                  </>
-                ) : (
-                  <>
-                    <svg
-                      className="w-5 h-5 mr-2"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
-                      />
-                    </svg>
-                    Submit Description
-                  </>
-                )}
-              </span>
-            </button>
-          </form>
+          {/* Progress Indicator */}
+          <Surface variant="glass" padding="md" radius="lg" border>
+            <div className="flex items-center justify-between text-sm">
+              <span className="text-text-secondary">Progress</span>
+              <span className="text-accent-primary font-medium">Step 2 of 3</span>
+            </div>
+            <div className="mt-3 flex space-x-2">
+              <div className="h-2 flex-1 bg-accent-primary rounded-full"></div>
+              <div className="h-2 flex-1 bg-accent-primary rounded-full"></div>
+              <div className="h-2 flex-1 bg-border-default rounded-full"></div>
+            </div>
+          </Surface>
+
+          {/* Quick Actions */}
+          <Surface variant="glass" padding="md" radius="lg" border>
+            <h4 className="font-semibold text-text-primary mb-3 text-sm">Quick Actions</h4>
+            <div className="grid grid-cols-2 gap-2">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setDescription(prev => prev + " The image shows ")}
+                disabled={disabled}
+              >
+                Add Starter
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setDescription(prev => prev + " In the foreground, ")}
+                disabled={disabled}
+              >
+                Foreground
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setDescription(prev => prev + " In the background, ")}
+                disabled={disabled}
+              >
+                Background
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setDescription(prev => prev + " The colors include ")}
+                disabled={disabled}
+              >
+                Colors
+              </Button>
+            </div>
+          </Surface>
         </div>
       </div>
-    </div>
+    </Surface>
   );
 }
